@@ -10,6 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as CreateTemplateIdRouteImport } from './routes/create.$templateId'
 import { Route as PSlugRouteImport } from './routes/p.$slug'
@@ -18,6 +23,31 @@ import { Route as TemplatesIdRouteImport } from './routes/templates.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TemplatesRoute = TemplatesRouteImport.update({
@@ -43,6 +73,11 @@ const TemplatesIdRoute = TemplatesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/templates': typeof TemplatesRouteWithChildren
   '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
@@ -50,6 +85,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/templates': typeof TemplatesRouteWithChildren
   '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
@@ -58,6 +98,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/templates': typeof TemplatesRouteWithChildren
   '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
@@ -66,12 +111,36 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/templates' | '/create/$templateId' | '/p/$slug' | '/templates/$id'
+    | '/'
+    | '/contact'
+    | '/dashboard'
+    | '/login'
+    | '/settings'
+    | '/signup'
+    | '/templates'
+    | '/create/$templateId'
+    | '/p/$slug'
+    | '/templates/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/templates' | '/create/$templateId' | '/p/$slug' | '/templates/$id'
+  to:
+    | '/'
+    | '/contact'
+    | '/dashboard'
+    | '/login'
+    | '/settings'
+    | '/signup'
+    | '/templates'
+    | '/create/$templateId'
+    | '/p/$slug'
+    | '/templates/$id'
   id:
     | '__root__'
     | '/'
+    | '/contact'
+    | '/dashboard'
+    | '/login'
+    | '/settings'
+    | '/signup'
     | '/templates'
     | '/create/$templateId'
     | '/p/$slug'
@@ -80,6 +149,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
   TemplatesRoute: typeof TemplatesRouteWithChildren
   CreateTemplateIdRoute: typeof CreateTemplateIdRoute
   PSlugRoute: typeof PSlugRoute
@@ -92,6 +166,41 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/templates': {
@@ -139,6 +248,11 @@ const TemplatesRouteWithChildren = TemplatesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
   TemplatesRoute: TemplatesRouteWithChildren,
   CreateTemplateIdRoute: CreateTemplateIdRoute,
   PSlugRoute: PSlugRoute,
