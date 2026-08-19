@@ -10,11 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TemplatesRouteImport } from './routes/templates'
+import { Route as CreateTemplateIdRouteImport } from './routes/create.$templateId'
 import { Route as PSlugRouteImport } from './routes/p.$slug'
+import { Route as TemplatesIdRouteImport } from './routes/templates.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateTemplateIdRoute = CreateTemplateIdRouteImport.update({
+  id: '/create/$templateId',
+  path: '/create/$templateId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PSlugRoute = PSlugRouteImport.update({
@@ -22,30 +35,53 @@ const PSlugRoute = PSlugRouteImport.update({
   path: '/p/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TemplatesIdRoute = TemplatesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => TemplatesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/templates': typeof TemplatesRouteWithChildren
+  '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
+  '/templates/$id': typeof TemplatesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/templates': typeof TemplatesRouteWithChildren
+  '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
+  '/templates/$id': typeof TemplatesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/templates': typeof TemplatesRouteWithChildren
+  '/create/$templateId': typeof CreateTemplateIdRoute
   '/p/$slug': typeof PSlugRoute
+  '/templates/$id': typeof TemplatesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/p/$slug'
+  fullPaths:
+    '/' | '/templates' | '/create/$templateId' | '/p/$slug' | '/templates/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/p/$slug'
-  id: '__root__' | '/' | '/p/$slug'
+  to: '/' | '/templates' | '/create/$templateId' | '/p/$slug' | '/templates/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/templates'
+    | '/create/$templateId'
+    | '/p/$slug'
+    | '/templates/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TemplatesRoute: typeof TemplatesRouteWithChildren
+  CreateTemplateIdRoute: typeof CreateTemplateIdRoute
   PSlugRoute: typeof PSlugRoute
 }
 
@@ -58,6 +94,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/templates': {
+      id: '/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof TemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create/$templateId': {
+      id: '/create/$templateId'
+      path: '/create/$templateId'
+      fullPath: '/create/$templateId'
+      preLoaderRoute: typeof CreateTemplateIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/p/$slug': {
       id: '/p/$slug'
       path: '/p/$slug'
@@ -65,11 +115,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/templates/$id': {
+      id: '/templates/$id'
+      path: '/$id'
+      fullPath: '/templates/$id'
+      preLoaderRoute: typeof TemplatesIdRouteImport
+      parentRoute: typeof TemplatesRoute
+    }
   }
 }
 
+interface TemplatesRouteChildren {
+  TemplatesIdRoute: typeof TemplatesIdRoute
+}
+
+const TemplatesRouteChildren: TemplatesRouteChildren = {
+  TemplatesIdRoute: TemplatesIdRoute,
+}
+
+const TemplatesRouteWithChildren = TemplatesRoute._addFileChildren(
+  TemplatesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TemplatesRoute: TemplatesRouteWithChildren,
+  CreateTemplateIdRoute: CreateTemplateIdRoute,
   PSlugRoute: PSlugRoute,
 }
 export const routeTree = rootRouteImport
